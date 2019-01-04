@@ -44,7 +44,7 @@
 
 <script>
 import Tables from '_c/tables'
-import { getAcademysTable , updateAcademy } from '@/api/handleAcademy'
+import { getAcademysTable, updateAcademy } from '@/api/handleAcademy'
 export default {
   name: 'academy_tables_page',
   components: {
@@ -120,7 +120,7 @@ export default {
   methods: {
     updateAcademy () {
       updateAcademy(this.formData).then(res => {
-        this.$Message.success('操作成功')
+        this.$Message.success('修改成功')
       })
     },
     showModal (row) {
