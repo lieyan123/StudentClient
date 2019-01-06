@@ -22,3 +22,23 @@ export const updateAcademy = (formData) => {
     method: 'post'
   })
 }
+
+export const getAcademyDetails = (academy_id) => {
+  return axios.request({
+    url: 'api/academy/GetAcademyDetails',
+    params: {
+      academy_id
+    },
+    method: 'get'
+  })
+}
+
+export const addAcademy = (formData) => {
+  return axios.request({
+    url: 'api/academy/AddAcademy',
+    data: {
+      formData
+    },
+    method: 'post'
+  })
+}

@@ -25,6 +25,9 @@
         type="primary"
         @click="exportExcel"
       >导出为Csv文件</Button>
+      <Button style="margin: 10px;" type="primary" @click="modal1 = true;">
+        新增学院
+        </Button>
     </Card>
     <Modal v-model="modal" title="修改学院信息" @on-ok="updateAcademy">
       <Form :model="formData"  >
@@ -39,14 +42,72 @@
         </FormItem>
       </Form>
     </Modal>
+    <Modal v-model="modal1" title="新增学院" @on-ok="addAcademy">
+      <Form :model="formData1"  >
+        <FormItem label="学院名">
+          <Input v-model="formData1.academy_name" placeholder="请输入学院名" />
+        </FormItem>
+        <FormItem label="状态">
+          <Select v-model="formData1.state">
+            <Option value="正常">正常</Option>
+            <Option value="废弃">废弃</Option>
+          </Select>
+        </FormItem>
+        <FormItem label="创建日期">
+          <DatePicker type="date" :value="formData1.academy_createtime"  placeholder="请选择创建日期" style="width: 200px"></DatePicker>
+        </FormItem>
+      </Form>
+    </Modal>
+    <Drawer :closable="false" width="640" v-model="drawer">
+       <p :style="pStyle">学院信息</p>
+            <p :style="pStyle">基本信息</p>
+            <div class="demo-drawer-profile">
+                <Row>
+                    <Col span="12">
+                    <span class="expand-key">学院名: </span>
+                        {{drawerItem.academy_name}}
+                    </Col>
+                    <Col span="12">
+                    <span class="expand-key">学院状态: </span>
+                        {{drawerItem.state}}
+                    </Col>
+                </Row>
+                <Row>
+                  <Col span="12">
+                    <span class="expand-key">创建时间： </span>
+                        {{drawerItem.academy_createtime}}
+                    </Col>
+                </Row>
+                <Row>
+                  <Col span="12" >
+                  <span>院系管理员：</span>
+                    <span class="expand-key" v-for="item in drawerItem.academy_managers" :key="item.teacher_name">
+                         {{item.teacher_name}}
+                         </span>
+                    </Col>
+                </Row>
+            </div>
+            <Divider />
+            <p :style="pStyle">麾下专业</p>
+              <Collapse accordion @on-change="searchClass">
+          <Panel v-for="item in drawerItem.majors" :name="item.major_id+''" :key="item.major_name">
+          {{item.major_name}}
+           <p slot="content" v-for="item in classArr" :key="item.class_id">
+             {{item.class_name}}
+           </p>
+        </Panel>
+    </Collapse>
+    </Drawer>
   </div>
 </template>
 
 <script>
 import Tables from '_c/tables'
-import { getAcademysTable, updateAcademy } from '@/api/handleAcademy'
+import { getAcademysTable, updateAcademy, getAcademyDetails , addAcademy } from '@/api/handleAcademy'
+import { getMajorClass } from '@/api/handleMajor'
 export default {
   name: 'academy_tables_page',
+  inject: ['reload'],
   components: {
     Tables
   },
@@ -94,7 +155,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.remove(params.index)
+                      this.showDrawer(params.row)
                     }
                   }
                 },
@@ -104,6 +165,13 @@ export default {
           }
         }
       ],
+      pStyle: {
+        fontSize: '16px',
+        color: 'rgba(0,0,0,0.85)',
+        lineHeight: '24px',
+        display: 'block',
+        marginBottom: '16px'
+      },
       tableData: [],
       pageTotal: 0,
       pageNum: 1,
@@ -111,22 +179,60 @@ export default {
       sendData: {},
       loading: true,
       modal: false,
+      modal1: false,
+      drawer: false,
       formData: {
         academy_name: '',
-        state: ''
-      }
+        state: '',
+        academy_id: ''
+      },
+      formData1: {
+        academy_name: '',
+        state: '',
+        academy_createtime: ''
+      },
+      drawerItem: {
+        academy_name: '',
+        academy_createtime: '',
+        state: '',
+        academy_managers: [],
+        majors: []
+      },
+      classArr: []
     }
   },
   methods: {
+    addAcademy () {
+      addAcademy(this.formData1).then(res => {
+        this.$Message.success('添加学院成功')
+        this.reload()
+      })
+    },
+    searchClass (key) {
+      getMajorClass(key[0]).then(res => {
+        this.classArr = res.data.classArr
+      })
+    },
+    showDrawer (row) {
+      this.drawerItem.academy_name = row.academy_name
+      this.drawerItem.academy_createtime = row.academy_createtime
+      this.drawerItem.state = row.state
+      getAcademyDetails(row.academy_id).then(res => {
+        this.drawerItem.academy_managers = res.data.managerArr
+        this.drawerItem.majors = res.data.majorArr
+        this.drawer = true
+      })
+    },
     updateAcademy () {
       updateAcademy(this.formData).then(res => {
         this.$Message.success('修改成功')
+        this.reload()
       })
     },
     showModal (row) {
       this.formData.academy_name = row.academy_name
       this.formData.state = row.state
-      console.log(row.state)
+      this.formData.academy_id = row.academy_id
       this.modal = true
     },
     objDeepCopy (source) { // js对象深拷贝
@@ -193,4 +299,10 @@ export default {
 }
 </script>
 <style>
+ .demo-drawer-profile{
+        font-size: 14px;
+    }
+    .demo-drawer-profile .ivu-col{
+        margin-bottom: 12px;
+    }
 </style>
