@@ -485,6 +485,8 @@ export default {
   mounted () {
     this.sendData.pageNum = this.pageNum
     this.sendData.pageSize = this.pageSize
+    this.sendData.searchKey = this.$route.params.searchKey
+    this.sendData.searchValue = this.$route.params.searchValue
     getStudentsTable(this.sendData).then(res => {
       this.tableData = res.data.tableData
       this.pageTotal = res.data.totalRecouds

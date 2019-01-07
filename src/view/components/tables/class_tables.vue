@@ -138,7 +138,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      // this.remove(params.index)
+                      this.searchStudent(params.index)
                     }
                   }
                 },
@@ -192,6 +192,12 @@ export default {
     }
   },
   methods: {
+    searchStudent (row) {
+      this.$router.push({
+        name: 'studentmessage_page',
+        params: { searchKey: 'class_id', searchValue: row.class_id }
+      })
+    },
     updateClass () {
       updateClass(this.UpdateformData).then(res => {
         updateClass(this.UpdateformData).then(res => {
