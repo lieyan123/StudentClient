@@ -25,14 +25,69 @@
         type="primary"
         @click="exportExcel"
       >导出为Csv文件</Button>
+      <Button
+        style="margin: 10px;"
+        type="primary"
+        @click="showAddModal"
+      >新增班级</Button>
     </Card>
+    <Modal
+      v-model="AddModal"
+      title="新增一个班级"
+      @on-ok="addClass"
+      >
+      <Form :model="AddformData"  >
+        <FormItem label="班级名">
+          <Input v-model="AddformData.class_name" placeholder="年份+班号 例：15（2）" />
+        </FormItem>
+        <FormItem label="隶属专业">
+          <Select v-model="AddformData.major_id" filterable>
+            <Option v-for="item in majorArr" :value="item.major_id" :key="item.major_id">{{item.major_name}}</Option>
+          </Select>
+        </FormItem>
+        <FormItem label="学年制">
+          <Select v-model="AddformData.year_id" filterable>
+            <Option v-for="item in yearArr" :value="item.year_id" :key="item.year_id">{{item.year_name}}</Option>
+          </Select>
+        </FormItem>
+        <FormItem label="入学日期">
+          <DatePicker type="date" v-model="AddformData.Admission_time" format="yyyy-MM-dd" placeholder="入学日期请选择为9月1号" ></DatePicker>
+        </FormItem>
+      </Form>
+    </Modal>
+    <Modal
+      v-model="UpdateModal"
+      title="修改班级信息"
+      @on-ok="updateClass"
+      >
+      <Form :model="UpdateformData"  >
+        <FormItem label="班级名">
+          <Input v-model="UpdateformData.class_name" placeholder="年份+班号 例：15（2）" />
+        </FormItem>
+        <FormItem label="隶属专业">
+          <Select v-model="UpdateformData.major_id" filterable>
+            <Option v-for="item in majorArr" :value="item.major_id" :key="item.major_id">{{item.major_name}}</Option>
+          </Select>
+        </FormItem>
+        <FormItem label="学年制">
+          <Select v-model="UpdateformData.year_id" filterable>
+            <Option v-for="item in yearArr" :value="item.year_id" :key="item.year_id">{{item.year_name}}</Option>
+          </Select>
+        </FormItem>
+        <FormItem label="入学日期">
+          <DatePicker type="date" v-model="UpdateformData.Admission_time" format="yyyy-MM-dd" placeholder="入学日期请选择为9月1号" ></DatePicker>
+        </FormItem>
+      </Form>
+    </Modal>
   </div>
 </template>
 
 <script>
 import Tables from '_c/tables'
-import { getClassesTable } from '@/api/handleClass'
+import { getClassesTable, getYearsTable, addClass, updateClass } from '@/api/handleClass'
+import { getMajorsTable } from '@/api/handleMajor'
 export default {
+  inject: ['reload'],
   name: 'class_tables_page',
   components: {
     Tables
@@ -49,7 +104,7 @@ export default {
         {
           title: '操作',
           key: 'name',
-          width: 150,
+          width: 300,
           align: 'center',
           render: (h, params) => {
             return h('div', [
@@ -65,11 +120,11 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.show(params.index)
+                      this.showUpdateModal(params.row)
                     }
                   }
                 },
-                '详细信息'
+                '修改信息'
               ),
               h(
                 'Button',
@@ -83,11 +138,29 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.remove(params.index)
+                      // this.remove(params.index)
                     }
                   }
                 },
-                '操作'
+                '查看学生'
+              ),
+              h(
+                'Button',
+                {
+                  props: {
+                    type: 'primary',
+                    size: 'small'
+                  },
+                  style: {
+                    marginRight: '5px'
+                  },
+                  on: {
+                    click: () => {
+                      // this.remove(params.index)
+                    }
+                  }
+                },
+                '查看课程'
               )
             ])
           }
@@ -98,10 +171,60 @@ export default {
       pageNum: 1,
       pageSize: 10,
       sendData: {},
-      loading: true
+      loading: true,
+      AddModal: false,
+      UpdateModal: false,
+      AddformData: {
+        class_name: '',
+        major_id: '',
+        Admission_time: '',
+        year_id: ''
+      },
+      majorArr: [],
+      yearArr: [],
+      UpdateformData: {
+        class_id: '',
+        class_name: '',
+        major_id: '',
+        Admission_time: '',
+        year_id: ''
+      }
     }
   },
   methods: {
+    updateClass () {
+      updateClass(this.UpdateformData).then(res => {
+        updateClass(this.UpdateformData).then(res => {
+          this.$Message.success('添加成功')
+          this.reload()
+        })
+      })
+    },
+    showUpdateModal (row) {
+      this.UpdateformData = row
+      getMajorsTable({}).then(res => {
+        this.majorArr = res.data.tableData
+      })
+      getYearsTable().then(res => {
+        this.yearArr = res.data.tableData
+        this.UpdateModal = true
+      })
+    },
+    addClass () {
+      addClass(this.AddformData).then(res => {
+        this.$Message.success('添加成功')
+        this.reload()
+      })
+    },
+    showAddModal () {
+      getMajorsTable({}).then(res => {
+        this.majorArr = res.data.tableData
+      })
+      getYearsTable().then(res => {
+        this.yearArr = res.data.tableData
+        this.AddModal = true
+      })
+    },
     handlePage (value) {
       this.pageNum = value
       this.sendData = {

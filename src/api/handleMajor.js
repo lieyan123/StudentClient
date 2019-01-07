@@ -22,3 +22,23 @@ export const getMajorClass = (major_id) => {
     method: 'get'
   })
 }
+
+export const addMajor = (formData) => {
+  return axios.request({
+    url: 'api/major/AddMajor',
+    data: {
+      formData
+    },
+    method: 'post'
+  })
+}
+
+export const updateMajor = (formData) => {
+  return axios.request({
+    url: 'api/major/UpdateMajor',
+    data: {
+      formData
+    },
+    method: 'post'
+  })
+}

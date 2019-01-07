@@ -218,7 +218,6 @@ export default {
     return {
       columns: [
         {
-          title: '缩略查看',
           type: 'expand',
           fixed: 'left',
           width: 99,
@@ -337,7 +336,12 @@ export default {
       pageNum: 1,
       pageSize: 10,
       sizeOption: [10, 20, 40, 100, 200],
-      sendData: {},
+      sendData: {
+        pageNum: '',
+        pageSize: '',
+        searchKey: '',
+        searchValue: ''
+      },
       loading: true,
       drawer: false,
       formData: {
@@ -430,10 +434,8 @@ export default {
     },
     handlePage (value) {
       this.pageNum = value
-      this.sendData = {
-        pageNum: this.pageNum,
-        pageSize: this.pageSize
-      }
+      this.sendData.pageNum = this.pageNum
+      this.sendData.pageSize = this.pageSize
       getStudentsTable(this.sendData).then(res => {
         this.tableData = res.data.tableData
         this.pageTotal = res.data.totalRecouds
@@ -442,10 +444,8 @@ export default {
     },
     handlePageSize (value) {
       this.pageSize = value
-      this.sendData = {
-        pageNum: this.pageNum,
-        pageSize: this.pageSize
-      }
+      this.sendData.pageNum = this.pageNum
+      this.sendData.pageSize = this.pageSize
       getStudentsTable(this.sendData).then(res => {
         this.tableData = res.data.tableData
         this.pageTotal = res.data.totalRecouds
@@ -483,10 +483,8 @@ export default {
     }
   },
   mounted () {
-    this.sendData = {
-      pageNum: this.pageNum,
-      pageSize: this.pageSize
-    }
+    this.sendData.pageNum = this.pageNum
+    this.sendData.pageSize = this.pageSize
     getStudentsTable(this.sendData).then(res => {
       this.tableData = res.data.tableData
       this.pageTotal = res.data.totalRecouds

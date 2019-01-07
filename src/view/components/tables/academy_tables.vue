@@ -54,7 +54,7 @@
           </Select>
         </FormItem>
         <FormItem label="创建日期">
-          <DatePicker type="date" :value="formData1.academy_createtime"  placeholder="请选择创建日期" style="width: 200px"></DatePicker>
+          <DatePicker type="date" v-model="formData1.academy_createtime" format="yyyy/MM/dd" placeholder="请选择创建日期" style="width: 200px"></DatePicker>
         </FormItem>
       </Form>
     </Modal>
@@ -103,7 +103,7 @@
 
 <script>
 import Tables from '_c/tables'
-import { getAcademysTable, updateAcademy, getAcademyDetails , addAcademy } from '@/api/handleAcademy'
+import { getAcademysTable, updateAcademy, getAcademyDetails, addAcademy } from '@/api/handleAcademy'
 import { getMajorClass } from '@/api/handleMajor'
 export default {
   name: 'academy_tables_page',
@@ -188,7 +188,7 @@ export default {
       },
       formData1: {
         academy_name: '',
-        state: '',
+        state: '正常',
         academy_createtime: ''
       },
       drawerItem: {
