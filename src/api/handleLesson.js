@@ -43,12 +43,13 @@ export const getClassLessons = (class_id) => {
   })
 }
 
-export const addClassLesson = (lesson_id, major_id) => {
+export const addClassLesson = (lesson_id, major_id, team) => {
   return axios.request({
     url: 'api/lesson/AddClassLesson',
     data: {
       lesson_id,
-      major_id
+      major_id,
+      team
     },
     method: 'post'
   })

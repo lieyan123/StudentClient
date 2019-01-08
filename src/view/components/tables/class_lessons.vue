@@ -22,6 +22,16 @@
       title="为该班级所属专业新增一个课程"
       @on-ok="addClassLesson"
       >
+          <Select v-model="team" >
+            <Option value="大一上学期">大一上学期</Option>
+            <Option value="大一下学期">大一下学期</Option>
+            <Option value="大二上学期">大二上学期</Option>
+            <Option value="大二下学期">大二下学期</Option>
+            <Option value="大三上学期">大三上学期</Option>
+            <Option value="大三下学期">大三下学期</Option>
+            <Option value="大四上学期">大四上学期</Option>
+            <Option value="大四下学期">大四下学期</Option>
+          </Select>
           <Select v-model="lesson_id" filterable>
             <Option v-for="item in lessonArr" :value="item.lesson_id" :key="item.lesson_id">{{item.lesson_name}}</Option>
           </Select>
@@ -101,13 +111,14 @@ export default {
       lesson_id: '',
       class_id: '',
       major_id: '',
+      team: '',
       lessonArr: []
     }
   },
   methods: {
     addClassLesson () {
-      addClassLesson(lesson_id, this.major_id).then(res => {
-        this.relaod()
+      addClassLesson(this.lesson_id, this.major_id, this.team).then(res => {
+        this.reload()
       })
     },
     showModal () {
@@ -118,7 +129,7 @@ export default {
     },
     deleteClassLesson (row) {
       deleteClassLesson(row.lesson_id, this.major_id).then(res => {
-        this.relaod()
+        this.reload()
       })
     },
     exportExcel () {
