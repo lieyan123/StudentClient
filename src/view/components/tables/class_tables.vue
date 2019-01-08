@@ -140,7 +140,7 @@ export default {
                     click: () => {
                       this.$router.push({
                         name: 'class_students_page',
-                        params: { searchKey: 'class_id', searchValue: params.row.class_id }
+                        params: { class_id: params.row.class_id }
                       })
                     }
                   }
@@ -159,11 +159,14 @@ export default {
                   },
                   on: {
                     click: () => {
-                      // this.remove(params.index)
+                      this.$router.push({
+                        name: 'class_lessons_page',
+                        params: { class_id: params.row.class_id, major_id: params.row.major_id }
+                      })
                     }
                   }
                 },
-                '查看课程'
+                '查看本班课程'
               )
             ])
           }

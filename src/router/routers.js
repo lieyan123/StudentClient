@@ -161,6 +161,15 @@ export default [
           icon: 'ios-menu'
         },
         component: () => import('@/view/components/tables/student_score.vue')
+      },
+      {
+        path: '/class_lessons_page',
+        name: 'class_lessons_page',
+        meta: {
+          title: '班级课程信息',
+          icon: 'ios-menu'
+        },
+        component: () => import('@/view/components/tables/class_lessons.vue')
       }
     ]
   },

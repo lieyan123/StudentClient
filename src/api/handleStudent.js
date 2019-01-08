@@ -42,3 +42,13 @@ export const updateStudentList = (tableData) => {
     method: 'post'
   })
 }
+
+export const getClassStudents = (class_id) => {
+  return axios.request({
+    url: 'api/student/GetClassStudents',
+    params: {
+      class_id
+    },
+    method: 'get'
+  })
+}

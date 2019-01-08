@@ -115,24 +115,6 @@ export default {
                   }
                 },
                 '修改信息'
-              ),
-              h(
-                'Button',
-                {
-                  props: {
-                    type: 'primary',
-                    size: 'small'
-                  },
-                  style: {
-                    marginRight: '5px'
-                  },
-                  on: {
-                    click: () => {
-                      this.show(params.row)
-                    }
-                  }
-                },
-                '查看选择班级'
               )
             ])
           }
