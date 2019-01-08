@@ -112,7 +112,7 @@ export default {
                 'Button',
                 {
                   props: {
-                    type: 'primary',
+                    type: 'warning',
                     size: 'small'
                   },
                   style: {
@@ -138,17 +138,20 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.searchStudent(params.index)
+                      this.$router.push({
+                        name: 'class_students_page',
+                        params: { searchKey: 'class_id', searchValue: params.row.class_id }
+                      })
                     }
                   }
                 },
-                '查看学生'
+                '查看本班学生'
               ),
               h(
                 'Button',
                 {
                   props: {
-                    type: 'primary',
+                    type: 'info',
                     size: 'small'
                   },
                   style: {
@@ -192,12 +195,6 @@ export default {
     }
   },
   methods: {
-    searchStudent (row) {
-      this.$router.push({
-        name: 'studentmessage_page',
-        params: { searchKey: 'class_id', searchValue: row.class_id }
-      })
-    },
     updateClass () {
       updateClass(this.UpdateformData).then(res => {
         updateClass(this.UpdateformData).then(res => {

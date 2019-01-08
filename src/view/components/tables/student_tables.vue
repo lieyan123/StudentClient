@@ -302,7 +302,7 @@ export default {
         {
           title: '操作',
           key: 'name',
-          width: 99,
+          width: 200,
           fixed: 'right',
           align: 'center',
           render: (h, params) => {
@@ -324,6 +324,27 @@ export default {
                   }
                 },
                 '修改信息'
+              ),
+              h(
+                'Button',
+                {
+                  props: {
+                    type: 'info',
+                    size: 'small'
+                  },
+                  style: {
+                    marginRight: '5px'
+                  },
+                  on: {
+                    click: () => {
+                      this.$router.push({
+                        name: 'student_score_page',
+                        params: { searchKey: 'student_id', searchValue: params.row.class_id }
+                      })
+                    }
+                  }
+                },
+                '查看成绩'
               )
             ])
           }
@@ -485,14 +506,17 @@ export default {
   mounted () {
     this.sendData.pageNum = this.pageNum
     this.sendData.pageSize = this.pageSize
-    this.sendData.searchKey = this.$route.params.searchKey
-    this.sendData.searchValue = this.$route.params.searchValue
     getStudentsTable(this.sendData).then(res => {
       this.tableData = res.data.tableData
       this.pageTotal = res.data.totalRecouds
       this.loading = false
     })
   }
+  // created () {
+  //   this.sendData.searchKey = this.$route.params.searchKey
+  //   this.sendData.searchValue = this.$route.params.searchValue
+  //   console.log(this.sendData.searchKey, this.sendData.searchValue)
+  // }
 }
 </script>
 <style>

@@ -143,6 +143,24 @@ export default [
           title: '消息中心'
         },
         component: () => import('@/view/single-page/message/index.vue')
+      },
+      {
+        path: '/class_students_page',
+        name: 'class_students_page',
+        meta: {
+          title: '班级学生信息',
+          icon: 'ios-menu'
+        },
+        component: () => import('@/view/components/tables/class_students.vue')
+      },
+      {
+        path: '/student_score_page',
+        name: 'student_score_page',
+        meta: {
+          title: '学生成绩信息',
+          icon: 'ios-menu'
+        },
+        component: () => import('@/view/components/tables/student_score.vue')
       }
     ]
   },
