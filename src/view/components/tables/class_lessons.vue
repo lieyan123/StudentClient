@@ -38,17 +38,26 @@
     </Modal>
     </Card>
     </Card>
+    <Card shadow>
+      <h1>{{lesson_name}}</h1>
+          <chart-pie style="height: 300px;" :value="pieData" text="挂科比例"></chart-pie>
+          <p>{{lesson_name}}平均成绩为：{{avg}}</p>
+        </Card>
   </div>
 </template>
 
 <script>
 import Tables from '_c/tables'
-import { getClassLessons, getLessonsTable, addClassLesson, deleteClassLesson } from '@/api/handleLesson'
+import { ChartPie, ChartBar } from '_c/charts'
+import { mapState } from 'vuex'
+import { getClassLessons, getLessonsTable, addClassLesson, deleteClassLesson, getLessonScore } from '@/api/handleLesson'
 export default {
   name: 'lesson_tables_page',
   inject: ['reload'],
   components: {
-    Tables
+    Tables,
+    ChartPie,
+    ChartBar
   },
   data () {
     return {
@@ -95,7 +104,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.show(params.row)
+                      this.showDrawer(params.row)
                     }
                   }
                 },
@@ -112,10 +121,30 @@ export default {
       class_id: '',
       major_id: '',
       team: '',
-      lessonArr: []
+      lessonArr: [],
+      avg: '',
+      num: 1,
+      lesson_name: ''
     }
   },
+  computed: {
+    ...mapState({
+      pieData: state => state.user.pieData
+    })
+  },
   methods: {
+    showDrawer (row) {
+      getLessonScore(this.class_id, row.lesson_id).then(res => {
+        this.avg = res.data.avg
+        const pass = res.data.pass.length
+        const down = res.data.down.length
+        const pieData = []
+        pieData.push({ value: pass, name: '通过' })
+        pieData.push({ value: down, name: '挂科' })
+        this.$store.commit('setPieData', pieData)
+        this.lesson_name = res.data.pass[0].lesson_name
+      })
+    },
     addClassLesson () {
       addClassLesson(this.lesson_id, this.major_id, this.team).then(res => {
         this.reload()

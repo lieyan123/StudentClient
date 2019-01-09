@@ -16,7 +16,7 @@ export default {
     userName: '',
     userId: '',
     avatorImgPath: '',
-    status:'',
+    status: '',
     token: getToken(),
     access: '',
     hasGetInfo: false,
@@ -24,9 +24,16 @@ export default {
     messageUnreadList: [],
     messageReadedList: [],
     messageTrashList: [],
-    messageContentStore: {}
+    messageContentStore: {},
+    pieData: [
+      { value: 0, name: '通过' },
+      { value: 0, name: '挂科' }
+    ]
   },
   mutations: {
+    setPieData (state, pieData) {
+      state.pieData = pieData
+    },
     setAvator (state, avatorPath) {
       state.avatorImgPath = avatorPath
     },
@@ -37,7 +44,7 @@ export default {
       state.userName = name
     },
     setStatus (state, status) {
-      state.status= status
+      state.status = status
     },
     setAccess (state, access) {
       state.access = access
@@ -78,7 +85,7 @@ export default {
   },
   actions: {
     // 登录
-    handleLogin ({ commit }, {userName, password, status }) {
+    handleLogin ({ commit }, { userName, password, status }) {
       userName = userName.trim()
       return new Promise((resolve, reject) => {
         login({
@@ -87,14 +94,13 @@ export default {
           status
         }).then(res => {
           const data = res.data
-          if(res.status===500){    //判断传来的是否有500错误信息，有的话就reject
+          if (res.status === 500) { // 判断传来的是否有500错误信息，有的话就reject
             reject()
-          }else{
+          } else {
             commit('setToken', data.token)
-            commit('setStatus',data.status)
+            commit('setStatus', data.status)
             resolve()
           }
-          
         }).catch(err => {
           reject(err)
         })
@@ -120,7 +126,7 @@ export default {
     getUserInfo ({ state, commit }) {
       return new Promise((resolve, reject) => {
         try {
-          getUserInfo(state.token,state.status).then(res => {
+          getUserInfo(state.token, state.status).then(res => {
             const data = res.data
             commit('setAvator', data.avator)
             commit('setUserName', data.name)

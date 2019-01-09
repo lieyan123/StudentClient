@@ -65,3 +65,14 @@ export const deleteClassLesson = (lesson_id, major_id) => {
     method: 'post'
   })
 }
+
+export const getLessonScore = (class_id, lesson_id) => {
+  return axios.request({
+    url: 'api/lesson/GetLessonScore',
+    params: {
+      class_id,
+      lesson_id
+    },
+    method: 'get'
+  })
+}

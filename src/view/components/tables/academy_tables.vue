@@ -78,14 +78,14 @@
                         {{drawerItem.academy_createtime}}
                     </Col>
                 </Row>
-                <Row>
+                <!-- <Row>
                   <Col span="12" >
                   <span>院系管理员：</span>
                     <span class="expand-key" v-for="item in drawerItem.academy_managers" :key="item.teacher_name">
                          {{item.teacher_name}}
                          </span>
                     </Col>
-                </Row>
+                </Row> -->
             </div>
             <Divider />
             <p :style="pStyle">麾下专业</p>

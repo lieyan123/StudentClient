@@ -68,6 +68,40 @@
     </i-col>
   </Row>
     </Card>
+    <Drawer v-model="scoredrawer" width="300px">
+      <h1>{{name}}</h1>
+      <Divider />
+      <tables
+        ref="scoretables"
+        border
+        search-place="top"
+        v-model="scoretableData"
+        :columns="scorecolumns"
+      />
+      <Button
+        style="margin: 10px 0;"
+        type="primary"
+        @click="exportScoreExcel"
+      >导出成绩excel</Button>
+      <Divider />
+      <h1>综合绩点</h1>
+      <Row>
+        <col>
+        大一绩点：{{ ((point[0]/10).toFixed(2)-5)<=0?0:((point[0]/10).toFixed(2)-5) }}
+        </col>
+        <col>
+        大二绩点：{{((point[1]/10).toFixed(2)-5)<=0?0:((point[1]/10).toFixed(2)-5)}}
+        </col>
+      </Row>
+      <Row>
+        <col>
+        大三绩点：{{((point[2]/10).toFixed(2)-5)<=0?0:((point[2]/10).toFixed(2)-5)}}
+        </col>
+        <col>
+        大四绩点：{{((point[3]/10).toFixed(2)-5)<=0?0:((point[3]/10).toFixed(2)-5)}}
+        </col>
+      </Row>
+    </Drawer>
        <Drawer
             title="修改个人信息"
             v-model="drawer"
@@ -202,7 +236,7 @@
 
 <script>
 import Tables from '_c/tables'
-import { getStudentsTable, updateOneStudent, addStudentList, updateStudentList } from '@/api/handleStudent'
+import { getStudentsTable, updateOneStudent, addStudentList, updateStudentList, getStudentScore } from '@/api/handleStudent'
 import { getClassesTable } from '@/api/handleClass'
 import { banUser } from '@/api/handleUser'
 import { getArrayFromFile, getTableDataFromArray } from '@/libs/util'
@@ -337,10 +371,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.$router.push({
-                        name: 'student_score_page',
-                        params: { searchKey: 'student_id', searchValue: params.row.class_id }
-                      })
+                      this.showScoreDrawer(params.row)
                     }
                   }
                 },
@@ -384,10 +415,22 @@ export default {
         addressDetails: '',
         email: ''
       },
+      scoredrawer: false,
+      scoretableData: [],
+      point: [],
+      name: '',
       classList: []
     }
   },
   methods: {
+    showScoreDrawer (row) {
+      getStudentScore(row.student_id).then(res => {
+        this.scoretableData = res.data.tableData
+        this.point = res.data.point
+        this.name = row.student_name
+        this.scoredrawer = true
+      })
+    },
     cancel () {
       this.$Message.info('取消了操作')
     },

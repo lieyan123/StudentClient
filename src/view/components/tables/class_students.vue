@@ -1,9 +1,9 @@
 <template>
   <div>
     <Card>
+      <h1>{{tableData[0].class_name}}</h1>
       <tables
         ref="tables"
-        height="400"
         border
         editable
         search-place="top"
@@ -18,144 +18,47 @@
       >导出为Csv文件</Button>
     </Card>
     <br>
-       <Drawer
-            title="修改个人信息"
-            v-model="drawer"
-            width="800"
-            :mask-closable="false"
-            :styles="styles"
-        >
-        <Form :model="formData">
-                <Row :gutter="32">
-                    <Col span="6">
-                        <FormItem label="姓名" label-position="top">
-                            <Input v-model="formData.student_name" placeholder="请输入姓名" />
-                        </FormItem>
-                    </Col>
-                    <Col span="6">
-                        <FormItem label="学号" label-position="top">
-                            <Input v-model="formData.student_num" disabled placeholder="学号不可更改">
-                            </Input>
-                        </FormItem>
-                    </Col>
-                    <Col span="6">
-                        <FormItem label="班级" label-position="top">
-                            <Select v-model="formData.class_id" placeholder="请选择班级">
-                                <Option v-for="item in classList" :value="item.class_id" :key="item.class_id">{{item.class_name}}</Option>
-                            </Select>
-                        </FormItem>
-                    </Col>
-                    <Col span="6">
-                        <FormItem label="性别" label-position="top">
-                            <Select v-model="formData.sex" placeholder="请选择性别">
-                                <Option value="男">男</Option>
-                                <Option value="女">女</Option>
-                            </Select>
-                        </FormItem>
-                    </Col>
-                </Row>
-                <Row :gutter="32">
-                    <Col span="6">
-                        <FormItem label="电话" label-position="top">
-                            <Input v-model="formData.phone" placeholder="请输入电话号码" />
-                        </FormItem>
-                    </Col>
-                    <Col span="6">
-                        <FormItem label="学生类型" label-position="top">
-                            <Select v-model="formData.student_type" placeholder="请选择学生类型">
-                                <Option value="本科生">本科生</Option>
-                                <Option value="研究生">研究生</Option>
-                                <Option value="博士生">博士生</Option>
-                            </Select>
-                        </FormItem>
-                    </Col>
-                    <Col span="6">
-                        <FormItem label="出生日期" label-position="top">
-                           <DatePicker v-model="formData.birthday" type="date" placeholder="请选择出生日期" format="yyyy-MM-dd" style="width: 200px"></DatePicker>
-                        </FormItem>
-                    </Col>
-                </Row>
-                <Row :gutter="32">
-                    <Col span="6">
-                        <FormItem label="籍贯" label-position="top">
-                          <al-cascader v-model="formData.native_place"  searchable data-type="name" level="3"/>
-                        </FormItem>
-                    </Col>
-                  </Row>
-                <Row :gutter="32">
-                    <Col span="6">
-                        <FormItem label="民族" label-position="top">
-                          <Input v-model="formData.Ethnicity" placeholder="例：汉" >
-                          <span slot="append">族</span>
-                          </input>
-                        </FormItem>
-                    </Col>
-                    <Col span="6">
-                        <FormItem label="国籍" label-position="top">
-                          <Input v-model="formData.nation" placeholder="例：中国" />
-                        </FormItem>
-                    </Col>
-                    <Col span="6">
-                        <FormItem label="身份证号" label-position="top">
-                          <Input v-model="formData.IDnumber" placeholder="请输入身份证号" />
-                        </FormItem>
-                    </Col>
-                    <Col span="6">
-                        <FormItem label="政治面貌" label-position="top">
-                          <Select v-model="formData.political_status">
-                            <Option value="共青团员" >共青团员</Option>
-                            <Option value="共产党员" >共产党员</Option>
-                            <Option value="群众" >群众</Option>
-                          </Select>
-                        </FormItem>
-                    </Col>
-                </Row>
-                <Row :gutter="32">
-                   <Col span="6">
-                        <FormItem label="学历" label-position="top">
-                           <Select v-model="formData.education">
-                            <Option value="本科" >本科</Option>
-                            <Option value="硕士研究生" >硕士研究生</Option>
-                            <Option value="博士研究生" >博士研究生</Option>
-                          </Select>
-                        </FormItem>
-                    </Col>
-                    <Col span="6">
-                        <FormItem label="健康状况" label-position="top">
-                          <Select v-model="formData.health_condition" placeholder="选择健康状况">
-                            <Option value="良好" >良好</Option>
-                            <Option value="正常" >正常</Option>
-                            <Option value="较差" >较差</Option>
-                          </Select>
-                        </FormItem>
-                    </Col>
-                    <Col span="6">
-                        <FormItem label="家庭住址" label-position="top">
-                          <al-cascader v-model="formData.native_place" size="small" searchable data-type="name" level="3"/>
-                          <Input v-model="formData.addressDetails" placeholder="请输入详细门牌号" />
-                        </FormItem>
-                    </Col>
-                    <Col span="6">
-                        <FormItem label="邮箱" label-position="top">
-                          <Input v-model="formData.email" placeholder="请输入邮箱" />
-                        </FormItem>
-                    </Col>
-                </Row>
-            </Form>
-            <div class="demo-drawer-footer">
-                <Button style="margin-right: 8px" @click="drawer = false">Cancel</Button>
-                <Button type="primary" @click="updateOneStudent">Submit</Button>
-            </div>
+    <Drawer v-model="drawer" width="300px">
+      <h1>{{name}}</h1>
+      <Divider />
+      <tables
+        ref="scoretables"
+        border
+        search-place="top"
+        v-model="scoretableData"
+        :columns="scorecolumns"
+      />
+      <Button
+        style="margin: 10px 0;"
+        type="primary"
+        @click="exportScoreExcel"
+      >导出成绩excel</Button>
+      <Divider />
+      <h1>综合绩点</h1>
+      <Row>
+        <col>
+        大一绩点：{{ ((point[0]/10).toFixed(2)-5)<=0?0:((point[0]/10).toFixed(2)-5) }}
+        </col>
+        <col>
+        大二绩点：{{((point[1]/10).toFixed(2)-5)<=0?0:((point[1]/10).toFixed(2)-5)}}
+        </col>
+      </Row>
+      <Row>
+        <col>
+        大三绩点：{{((point[2]/10).toFixed(2)-5)<=0?0:((point[2]/10).toFixed(2)-5)}}
+        </col>
+        <col>
+        大四绩点：{{((point[3]/10).toFixed(2)-5)<=0?0:((point[3]/10).toFixed(2)-5)}}
+        </col>
+      </Row>
     </Drawer>
   </div>
 </template>
 
 <script>
 import Tables from '_c/tables'
-import { getClassStudents, updateOneStudent } from '@/api/handleStudent'
-import { getClassesTable } from '@/api/handleClass'
+import { getClassStudents, getStudentScore } from '@/api/handleStudent'
 import { banUser } from '@/api/handleUser'
-import { getArrayFromFile, getTableDataFromArray } from '@/libs/util'
 import expandRow from '../tables-expand/student_table-expand.vue'
 
 export default {
@@ -166,6 +69,10 @@ export default {
   },
   data () {
     return {
+      scorecolumns: [
+        { title: '课程名', key: 'lesson_name', width: 150, sortable: true },
+        { title: '成绩', key: 'score', width: 150, sortable: true }
+      ],
       columns: [
         {
           type: 'expand',
@@ -200,56 +107,6 @@ export default {
         { title: '电子邮箱', key: 'email', width: 200, sortable: true },
         { title: '账号状态', key: 'state', width: 100, sortable: true },
         {
-          title: '账户',
-          key: 'name',
-          width: 99,
-          fixed: 'right',
-          align: 'center',
-          render: (h, params) => {
-            if (params.row.state === '启用') {
-              return h('div', [
-                h(
-                  'Button',
-                  {
-                    props: {
-                      type: 'error',
-                      size: 'small'
-                    },
-                    style: {
-                      marginRight: '5px'
-                    },
-                    on: {
-                      click: () => {
-                        this.banUser(params)
-                      }
-                    }
-                  },
-                  '禁用'
-                )])
-            } else if (params.row.state === '禁用') {
-              return h('div', [
-                h(
-                  'Button',
-                  {
-                    props: {
-                      type: 'primary',
-                      size: 'small'
-                    },
-                    style: {
-                      marginRight: '5px'
-                    },
-                    on: {
-                      click: () => {
-                        this.banUser(params)
-                      }
-                    }
-                  },
-                  '启用'
-                )])
-            }
-          }
-        },
-        {
           title: '操作',
           key: 'name',
           width: 200,
@@ -257,24 +114,6 @@ export default {
           align: 'center',
           render: (h, params) => {
             return h('div', [
-              h(
-                'Button',
-                {
-                  props: {
-                    type: 'primary',
-                    size: 'small'
-                  },
-                  style: {
-                    marginRight: '5px'
-                  },
-                  on: {
-                    click: () => {
-                      this.showDrawer(params.row)
-                    }
-                  }
-                },
-                '修改信息'
-              ),
               h(
                 'Button',
                 {
@@ -287,10 +126,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.$router.push({
-                        name: 'student_score_page',
-                        params: { searchKey: 'student_id', searchValue: params.row.class_id }
-                      })
+                      this.showDrawer(params.row)
                     }
                   }
                 },
@@ -301,42 +137,16 @@ export default {
         }
       ],
       tableData: [],
-      uploadcolumns: [],
-      uploadtableData: [],
       loading: true,
       drawer: false,
-      formData: {
-        student_name: '',
-        student_num: '',
-        class_id: '',
-        sex: '',
-        phone: '',
-        student_type: '',
-        birthday: '',
-        native_place: [],
-        Ethnicity: '',
-        nation: '',
-        IDnumber: '',
-        political_status: '',
-        education: '',
-        health_condition: '',
-        familyAddress: [],
-        addressDetails: '',
-        email: ''
-      },
-      classList: []
+      scoretableData: [],
+      point: [],
+      name: ''
     }
   },
   methods: {
     cancel () {
       this.$Message.info('取消了操作')
-    },
-    updateOneStudent () {
-      updateOneStudent(this.formData).then(res => {
-        this.$Message.info('修改成功')
-        this.drawer = false
-        this.reload()
-      })
     },
     objDeepCopy (source) { // js对象深拷贝
       var sourceCopy = {}
@@ -346,12 +156,11 @@ export default {
       return sourceCopy
     },
     showDrawer (row) {
-      getClassesTable({}).then(res => {
-        this.classList = res.data.tableData
-        this.formData = {}
-        this.formData = this.objDeepCopy(row)
-        this.formData.native_place = (this.formData.native_place || '').split('/')
-        this.formData.familyAddress = (this.formData.familyAddress || '').split('/')
+      getStudentScore(row.student_id).then(res => {
+        this.scoretableData = res.data.tableData
+        this.point = res.data.point
+        this.name = row.student_name
+        console.log(this.point)
         this.drawer = true
       })
     },
@@ -367,7 +176,7 @@ export default {
       this.$refs.tables.exportCsv({
         filename: `StudentTable-${new Date().valueOf()}.csv`,
         original: false,
-        columns: this.columns.filter((col, index) => index > 0 && index < 22),
+        columns: this.columns.filter((col, index) => index > 0 && index < 21),
         data: newData.map(item => {
           item.phone = '="' + item.phone + '"'
           item.birthday = '="' + item.birthday + '"'
@@ -377,11 +186,15 @@ export default {
         })
 
       })
+    },
+    exportScoreExcel () {
+      this.$refs.scoretables.exportCsv({
+        filename: `ScoreTable-${new Date().valueOf()}.csv`
+      })
     }
   },
   mounted () {
     const class_id = this.$route.params.class_id
-    console.log(class_id)
     getClassStudents(class_id).then(res => {
       this.tableData = res.data.tableData
       this.loading = false

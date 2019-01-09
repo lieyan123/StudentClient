@@ -52,3 +52,12 @@ export const getClassStudents = (class_id) => {
     method: 'get'
   })
 }
+export const getStudentScore = (student_id) => {
+  return axios.request({
+    url: 'api/student/GetStudentScore',
+    params: {
+      student_id
+    },
+    method: 'get'
+  })
+}
