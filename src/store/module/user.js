@@ -28,9 +28,25 @@ export default {
     pieData: [
       { value: 0, name: '通过' },
       { value: 0, name: '挂科' }
-    ]
+    ],
+    lesson_name: '课程名',
+    avg: '0',
+    tableModal: false,
+    scoreData: []
   },
   mutations: {
+    setScoreData (state, scoreData) {
+      state.scoreData = scoreData
+    },
+    setTableModal (state, tableModal) {
+      state.tableModal = tableModal
+    },
+    setAvg (state, avg) {
+      state.avg = avg
+    },
+    setLesson_name (state, lesson_name) {
+      state.lesson_name = lesson_name
+    },
     setPieData (state, pieData) {
       state.pieData = pieData
     },

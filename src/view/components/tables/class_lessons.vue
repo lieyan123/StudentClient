@@ -8,20 +8,16 @@
         :columns="columns"
       />
       <Button
-        style="margin: 10px 0;"
-        type="primary"
-        @click="exportExcel"
-      >导出为Csv文件</Button>
-      <Button
         style="margin: 10px;"
         type="warning"
         @click="showModal"
-      >为该班级所属专业新增一个课程</Button>
+      >为该班级新增一个课程</Button>
       <Modal
       v-model="AddModal"
       title="为该班级所属专业新增一个课程"
       @on-ok="addClassLesson"
       >
+          <label for="">学期</label>
           <Select v-model="team" >
             <Option value="大一上学期">大一上学期</Option>
             <Option value="大一下学期">大一下学期</Option>
@@ -32,9 +28,26 @@
             <Option value="大四上学期">大四上学期</Option>
             <Option value="大四下学期">大四下学期</Option>
           </Select>
+          <label for="">课程</label>
           <Select v-model="lesson_id" filterable>
             <Option v-for="item in lessonArr" :value="item.lesson_id" :key="item.lesson_id">{{item.lesson_name}}</Option>
           </Select>
+          <label for="">授课老师</label>
+          <Select v-model="teacher_id" filterable>
+            <Option v-for="item in teacherArr" :value="item.teacher_id" :key="item.teacher_id">{{item.teacher_name}}</Option>
+          </Select>
+    </Modal>
+    <Modal
+      :closable="false"
+      v-model="tableModal"
+      :title="lesson_name"
+      >
+      <Table :columns="scoreColumns" height='300' ref="scoretables" :data="scoreData"></Table>
+      <Button
+        style="margin: 10px 0;"
+        type="primary"
+        @click="exportExcel"
+      >导出为Csv文件</Button>
     </Modal>
     </Card>
     </Card>
@@ -50,6 +63,7 @@
 import Tables from '_c/tables'
 import { ChartPie, ChartBar } from '_c/charts'
 import { mapState } from 'vuex'
+import { getUsersTable } from '@/api/handleUser'
 import { getClassLessons, getLessonsTable, addClassLesson, deleteClassLesson, getLessonScore } from '@/api/handleLesson'
 export default {
   name: 'lesson_tables_page',
@@ -61,12 +75,17 @@ export default {
   },
   data () {
     return {
+      scoreColumns: [
+        { title: '姓名', key: 'student_name', sortable: true, fixed: 'left' },
+        { title: '成绩', key: 'score', sortable: true, fixed: 'left' }
+      ],
       columns: [
         { title: '课程id', key: 'lesson_id', sortable: true, fixed: 'left' },
         { title: '课程名称', key: 'lesson_name', sortable: true },
         { title: '学时', key: 'lesson_hours', sortable: true },
         { title: '课程类型', key: 'lesson_type', sortable: true },
         { title: '修读学期', key: 'team', sortable: true },
+        { title: '授课老师', key: 'teacher_name', sortable: true },
         {
           title: '操作',
           key: 'name',
@@ -90,7 +109,7 @@ export default {
                     }
                   }
                 },
-                '删除隶属专业该门课程'
+                '删除该门课程'
               ),
               h(
                 'Button',
@@ -120,33 +139,41 @@ export default {
       lesson_id: '',
       class_id: '',
       major_id: '',
+      teacher_id: '',
       team: '',
       lessonArr: [],
-      avg: '',
-      num: 1,
-      lesson_name: ''
+      teacherArr: [],
+      num: 1
     }
   },
   computed: {
     ...mapState({
-      pieData: state => state.user.pieData
+      pieData: state => state.user.pieData,
+      lesson_name: state => state.user.lesson_name,
+      avg: state => state.user.avg,
+      tableModal: state => state.user.tableModal,
+      scoreData: state => state.user.scoreData
     })
   },
   methods: {
     showDrawer (row) {
       getLessonScore(this.class_id, row.lesson_id).then(res => {
-        this.avg = res.data.avg
+        // this.avg = res.data.avg
+        this.$store.commit('setAvg', res.data.avg)
         const pass = res.data.pass.length
         const down = res.data.down.length
         const pieData = []
         pieData.push({ value: pass, name: '通过' })
         pieData.push({ value: down, name: '挂科' })
         this.$store.commit('setPieData', pieData)
-        this.lesson_name = res.data.pass[0].lesson_name
+        this.$store.commit('setLesson_name', res.data.pass[0].lesson_name)
+        this.$store.commit('setTableModal', true)
+        this.$store.commit('setScoreData', res.data.tableData)
+        this.reload()
       })
     },
     addClassLesson () {
-      addClassLesson(this.lesson_id, this.major_id, this.team).then(res => {
+      addClassLesson(this.lesson_id, this.class_id, this.team, this.teacher_id).then(res => {
         this.reload()
       })
     },
@@ -155,14 +182,17 @@ export default {
         this.lessonArr = res.data.tableData
         this.AddModal = true
       })
+      getUsersTable({}).then(res => {
+        this.teacherArr = res.data.tableData
+      })
     },
     deleteClassLesson (row) {
-      deleteClassLesson(row.lesson_id, this.major_id).then(res => {
+      deleteClassLesson(row.lesson_id, this.class_id).then(res => {
         this.reload()
       })
     },
     exportExcel () {
-      this.$refs.tables.exportCsv({
+      this.$refs.scoretables.exportCsv({
         filename: `table-${new Date().valueOf()}.csv`
       })
     }

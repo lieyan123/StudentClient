@@ -123,7 +123,72 @@ export default [
           icon: 'ios-menu'
         },
         component: () => import('@/view/components/tables/lesson_tables.vue')
+      },
+      {
+        path: '/class_students_page',
+        name: 'class_students_page',
+        meta: {
+          hideInMenu: true,
+          title: '班级学生信息',
+          icon: 'ios-menu'
+        },
+        component: () => import('@/view/components/tables/class_students.vue')
+      },
+      {
+        path: '/class_lessons_page',
+        name: 'class_lessons_page',
+        meta: {
+          hideInMenu: true,
+          title: '班级课程信息',
+          icon: 'ios-menu'
+        },
+        component: () => import('@/view/components/tables/class_lessons.vue')
       }
+    ]
+  },
+  {
+    path: '/teacherHandle',
+    name: 'teacherHandle',
+    component: Main,
+    meta: {
+      access: ['教师'],
+      hideInBread: false,
+      title: '教师操作',
+      icon: 'ios-build'
+    },
+    children: [
+      {
+        path: '/teacher_class_page',
+        name: 'teacher_class_page',
+        meta: {
+          title: '班级成绩管理',
+          icon: 'ios-menu'
+        },
+        component: () => import('@/view/components/teachertables/teacher_class.vue')
+      },
+      {
+        path: '/teacher_class_student_page',
+        name: 'teacher_class_student_page',
+        meta: {
+          hideInMenu: true,
+          title: '科目成绩管理',
+          icon: 'ios-menu'
+        },
+        component: () => import('@/view/components/teachertables/teacher_class_student.vue')
+      }
+    ]
+  },
+  {
+    path: '/studentHandle',
+    name: 'studentHandle',
+    component: Main,
+    meta: {
+      access: ['学生'],
+      hideInBread: false,
+      title: '学生操作',
+      icon: 'ios-build'
+    },
+    children: [
     ]
   },
   {
@@ -143,24 +208,6 @@ export default [
           title: '消息中心'
         },
         component: () => import('@/view/single-page/message/index.vue')
-      },
-      {
-        path: '/class_students_page',
-        name: 'class_students_page',
-        meta: {
-          title: '班级学生信息',
-          icon: 'ios-menu'
-        },
-        component: () => import('@/view/components/tables/class_students.vue')
-      },
-      {
-        path: '/class_lessons_page',
-        name: 'class_lessons_page',
-        meta: {
-          title: '班级课程信息',
-          icon: 'ios-menu'
-        },
-        component: () => import('@/view/components/tables/class_lessons.vue')
       }
     ]
   },

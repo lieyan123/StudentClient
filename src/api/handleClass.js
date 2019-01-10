@@ -40,3 +40,16 @@ export const updateClass = (formData) => {
     method: 'post'
   })
 }
+
+export const getTeacherClass = ({ pageNum, pageSize, searchKey, searchValue }) => {
+  return axios.request({
+    url: 'api/class/GetTeacherClass',
+    params: {
+      pageNum,
+      pageSize,
+      searchKey,
+      searchValue
+    },
+    method: 'get'
+  })
+}

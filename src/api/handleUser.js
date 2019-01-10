@@ -33,3 +33,13 @@ export const banUser = (id, state) => {
     method: 'post'
   })
 }
+
+export const updatePassword = (formItem) => {
+  return axios.request({
+    url: 'api/user/UpdatePassword',
+    data: {
+      formItem
+    },
+    method: 'post'
+  })
+}

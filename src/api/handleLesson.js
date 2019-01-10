@@ -43,24 +43,25 @@ export const getClassLessons = (class_id) => {
   })
 }
 
-export const addClassLesson = (lesson_id, major_id, team) => {
+export const addClassLesson = (lesson_id, class_id, team, teacher_id) => {
   return axios.request({
     url: 'api/lesson/AddClassLesson',
     data: {
       lesson_id,
-      major_id,
-      team
+      class_id,
+      team,
+      teacher_id
     },
     method: 'post'
   })
 }
 
-export const deleteClassLesson = (lesson_id, major_id) => {
+export const deleteClassLesson = (lesson_id, class_id) => {
   return axios.request({
     url: 'api/lesson/DeleteClassLesson',
     data: {
       lesson_id,
-      major_id
+      class_id
     },
     method: 'post'
   })
@@ -74,5 +75,15 @@ export const getLessonScore = (class_id, lesson_id) => {
       lesson_id
     },
     method: 'get'
+  })
+}
+
+export const updateScores = (tableData) => {
+  return axios.request({
+    url: 'api/lesson/UpdateScores',
+    data: {
+      tableData
+    },
+    method: 'post'
   })
 }
