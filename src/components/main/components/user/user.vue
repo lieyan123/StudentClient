@@ -20,10 +20,10 @@
       >
       <Form :model="formItem" >
         <FormItem label="旧密码">
-          <Input v-model="formItem.oldPassword" placeholder="请输入旧密码"></Input>
+          <Input type='password' v-model="formItem.oldPassword" placeholder="请输入旧密码"></Input>
         </FormItem>
         <FormItem label="新密码">
-          <Input v-model="formItem.newPassword" placeholder="请输入新密码"></Input>
+          <Input type='password' v-model="formItem.newPassword" placeholder="请输入新密码"></Input>
         </FormItem>
       </Form>
     </Modal>
@@ -74,10 +74,12 @@ export default {
     },
     updatePassword () {
       updatePassword(this.formItem).then(res => {
-        if (res.status === 500) {
+        if (res.data.status === 500) {
           this.$Message.error('修改失败，请确保旧密码正确')
         } else {
           this.$Message.success('修改密码成功')
+          this.formItem.oldPassword = ''
+          this.formItem.newPassword = ''
         }
       })
     },

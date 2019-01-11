@@ -15,6 +15,7 @@ export default {
   state: {
     userName: '',
     userId: '',
+    userNum: '',
     avatorImgPath: '',
     status: '',
     token: getToken(),
@@ -35,6 +36,9 @@ export default {
     scoreData: []
   },
   mutations: {
+    setUserNum (state, userNum) {
+      state.userNum = userNum
+    },
     setScoreData (state, scoreData) {
       state.scoreData = scoreData
     },
@@ -147,6 +151,7 @@ export default {
             commit('setAvator', data.avator)
             commit('setUserName', data.name)
             commit('setUserId', data.user_id)
+            commit('setUserNum', data.user_num)
             commit('setAccess', data.access)
             commit('setHasGetInfo', true)
             resolve(data)

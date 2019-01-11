@@ -18,7 +18,7 @@
       >导出为Csv文件</Button>
     </Card>
     <br>
-    <Drawer v-model="drawer" width="300px">
+    <Drawer v-model="drawer" width="450px">
       <h1>{{name}}</h1>
       <Divider />
       <tables
@@ -34,7 +34,7 @@
         @click="exportScoreExcel"
       >导出成绩excel</Button>
       <Divider />
-      <h1>综合绩点</h1>
+      <h1>学分绩点</h1>
       <Row>
         <col>
         大一绩点：{{ ((point[0]/10).toFixed(2)-5)<=0?0:((point[0]/10).toFixed(2)-5) }}
@@ -71,6 +71,7 @@ export default {
     return {
       scorecolumns: [
         { title: '课程名', key: 'lesson_name', width: 150, sortable: true },
+        { title: '课程学分', key: 'credit', width: 150, sortable: true },
         { title: '成绩', key: 'score', width: 150, sortable: true }
       ],
       columns: [
@@ -156,7 +157,7 @@ export default {
       return sourceCopy
     },
     showDrawer (row) {
-      getStudentScore(row.student_id).then(res => {
+      getStudentScore(row.student_num).then(res => {
         this.scoretableData = res.data.tableData
         this.point = res.data.point
         this.name = row.student_name

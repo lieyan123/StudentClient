@@ -189,6 +189,24 @@ export default [
       icon: 'ios-build'
     },
     children: [
+      {
+        path: '/student_page',
+        name: 'student_page',
+        meta: {
+          title: '个人信息',
+          icon: 'ios-menu'
+        },
+        component: () => import('@/view/components/studenttables/message.vue')
+      },
+      {
+        path: '/studentScore',
+        name: 'studentScore',
+        meta: {
+          title: '成绩信息',
+          icon: 'ios-menu'
+        },
+        component: () => import('@/view/components/studenttables/score.vue')
+      }
     ]
   },
   {

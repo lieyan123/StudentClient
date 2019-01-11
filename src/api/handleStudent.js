@@ -52,11 +52,21 @@ export const getClassStudents = (class_id) => {
     method: 'get'
   })
 }
-export const getStudentScore = (student_id) => {
+export const getStudentScore = (student_num) => {
   return axios.request({
     url: 'api/student/GetStudentScore',
     params: {
-      student_id
+      student_num
+    },
+    method: 'get'
+  })
+}
+
+export const getOneStudentMessage = (student_num) => {
+  return axios.request({
+    url: 'api/student/GetOneStudentMessage',
+    params: {
+      student_num
     },
     method: 'get'
   })

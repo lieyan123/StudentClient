@@ -53,7 +53,7 @@
 <script>
 import Tables from '_c/tables'
 import { getTeacherClass } from '@/api/handleClass'
-import { getLessonScore , updateScores } from '@/api/handleLesson'
+import { getLessonScore, updateScores } from '@/api/handleLesson'
 export default {
   inject: ['reload'],
   name: 'class_tables_page',
@@ -130,7 +130,7 @@ export default {
       this.sendData = {
         pageNum: this.pageNum,
         pageSize: this.pageSize,
-        searchValue: this.$store.state.user.userId
+        searchValue: this.$store.state.user.userNum
       }
       getTeacherClass(this.sendData).then(res => {
         this.tableData = res.data.tableData
@@ -143,7 +143,7 @@ export default {
       this.sendData = {
         pageNum: this.pageNum,
         pageSize: this.pageSize,
-        searchValue: this.$store.state.user.userId
+        searchValue: this.$store.state.user.userNum
       }
       getTeacherClass(this.sendData).then(res => {
         this.tableData = res.data.tableData
@@ -166,7 +166,7 @@ export default {
     this.sendData = {
       pageNum: this.pageNum,
       pageSize: this.pageSize,
-      searchValue: this.$store.state.user.userId
+      searchValue: this.$store.state.user.userNum
     }
     // console.log(this.$store.state.user)
     getTeacherClass(this.sendData).then(res => {
