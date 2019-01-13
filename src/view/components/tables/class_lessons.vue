@@ -37,7 +37,6 @@
           </Select>
     </Modal>
     </Card>
-    </Card>
     <Card shadow>
       <h1>{{lesson_name}}</h1>
           <chart-pie style="height: 300px;" :value="pieData" text="挂科比例"></chart-pie>
