@@ -31,23 +31,29 @@ export const logout = (token) => {
   })
 }
 
-export const getUnreadCount = () => {
+export const getUnreadCount = (userId) => {
   return axios.request({
-    url: 'message/count',
+    url: 'api/message/GetUnreadCount',
+    params: {
+      userId
+    },
     method: 'get'
   })
 }
 
-export const getMessage = () => {
+export const getMessage = (userId) => {
   return axios.request({
-    url: 'message/init',
+    url: 'api/message/GetMessageList',
+    params: {
+      userId
+    },
     method: 'get'
   })
 }
 
 export const getContentByMsgId = msg_id => {
   return axios.request({
-    url: 'message/content',
+    url: 'api/message/GetContent',
     method: 'get',
     params: {
       msg_id
@@ -57,7 +63,7 @@ export const getContentByMsgId = msg_id => {
 
 export const hasRead = msg_id => {
   return axios.request({
-    url: 'message/has_read',
+    url: 'api/message/setReaded',
     method: 'post',
     data: {
       msg_id
@@ -67,7 +73,7 @@ export const hasRead = msg_id => {
 
 export const removeReaded = msg_id => {
   return axios.request({
-    url: 'message/remove_readed',
+    url: 'api/message/removeReaded',
     method: 'post',
     data: {
       msg_id
@@ -77,10 +83,37 @@ export const removeReaded = msg_id => {
 
 export const restoreTrash = msg_id => {
   return axios.request({
-    url: 'message/restore',
+    url: 'api/message/Restore',
     method: 'post',
     data: {
       msg_id
     }
+  })
+}
+
+export const saveDraft = formData => {
+  return axios.request({
+    url: 'api/message/SaveDraft',
+    method: 'post',
+    data: {
+      formData
+    }
+  })
+}
+
+export const deleteDraft = draft_id => {
+  return axios.request({
+    url: 'api/message/DeleteDraft',
+    method: 'post',
+    data: {
+      draft_id
+    }
+  })
+}
+
+export const getDrafts = () => {
+  return axios.request({
+    url: 'api/message/GetDrafts',
+    method: 'get'
   })
 }

@@ -15,7 +15,7 @@ export default {
   baseUrl: {
     // dev: 'https://www.easy-mock.com/mock/5add9213ce4d0e69998a6f51/iview-admin/',
     // http://129.28.98.172:8360/
-    dev: 'http://129.28.98.172:8360/',
+    dev: 'http://127.0.0.1:8360/',
     pro: 'http://129.28.98.172:8360/'
   },
   /**

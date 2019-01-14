@@ -143,6 +143,15 @@ export default [
           icon: 'ios-menu'
         },
         component: () => import('@/view/components/tables/class_lessons.vue')
+      },
+      {
+        path: '/message_editor_page',
+        name: 'message_editor_page',
+        meta: {
+          title: '信息编辑发送',
+          icon: 'ios-send'
+        },
+        component: () => import('@/view/components/tables/message_editor.vue')
       }
     ]
   },
