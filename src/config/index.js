@@ -14,8 +14,9 @@ export default {
    */
   baseUrl: {
     // dev: 'https://www.easy-mock.com/mock/5add9213ce4d0e69998a6f51/iview-admin/',
-    dev: 'http://127.0.0.1:8360/',
-    pro: 'https://produce.com'
+    // http://129.28.98.172:8360/
+    dev: 'http://129.28.98.172:8360/',
+    pro: 'http://129.28.98.172:8360/'
   },
   /**
    * @description 默认打开的首页的路由name值，默认为home
