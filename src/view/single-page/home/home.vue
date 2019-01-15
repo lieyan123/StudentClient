@@ -1,13 +1,30 @@
 <template>
   <div>
-    <Row :gutter="20">
+    <!-- <Row :gutter="20">
       <i-col :xs="12" :md="8" :lg="4" v-for="(infor, i) in inforCardData" :key="`infor-${i}`" style="height: 120px;padding-bottom: 10px;">
         <infor-card shadow :color="infor.color" :icon="infor.icon" :icon-size="36">
           <count-to :end="infor.count" count-class="count-style"/>
           <p>{{ infor.title }}</p>
         </infor-card>
       </i-col>
-    </Row>
+    </Row> -->
+    <div class="logo">
+
+    </div>
+    <Carousel v-model="value1" loop :autoplay='true' :autoplay-speed='5000'>
+        <CarouselItem>
+            <div class="demo-carousel"><img src='../../../assets/images/carousel1.jpg'></div>
+        </CarouselItem>
+        <CarouselItem>
+            <div class="demo-carousel"><img src='../../../assets/images/carousel2.jpg'></div>
+        </CarouselItem>
+        <CarouselItem>
+            <div class="demo-carousel"><img src='../../../assets/images/carousel3.jpg'></div>
+        </CarouselItem>
+        <CarouselItem>
+            <div class="demo-carousel"><img src='../../../assets/images/carousel4.jpg'></div>
+        </CarouselItem>
+    </Carousel>
     <Row :gutter="20" style="margin-top: 10px;">
       <i-col :md="24" :lg="8" style="margin-bottom: 20px;">
         <Card shadow>
@@ -44,6 +61,7 @@ export default {
   },
   data () {
     return {
+      value1: 0,
       inforCardData: [
         { title: '新增用户', icon: 'md-person-add', count: 803, color: '#2d8cf0' },
         { title: '累计点击', icon: 'md-locate', count: 232, color: '#19be6b' },
@@ -79,5 +97,14 @@ export default {
 <style lang="less">
 .count-style{
   font-size: 50px;
+  .logo{
+    background-color: #A32B34;
+    background-image: url(../../../assets/images/tt1.jpg);
+    background-repeat: no-repeat;
+    background-position: 200px;
+    height: 136px;
+    position: relative;
+    z-index: 99;
+}
 }
 </style>

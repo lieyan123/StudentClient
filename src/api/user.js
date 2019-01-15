@@ -117,3 +117,16 @@ export const getDrafts = () => {
     method: 'get'
   })
 }
+
+export const sendMessage = (teacherArr, studentArr, title, messageContext) => {
+  return axios.request({
+    url: 'api/message/SendMessage',
+    data: {
+      teacherArr,
+      studentArr,
+      title,
+      messageContext
+    },
+    method: 'post'
+  })
+}

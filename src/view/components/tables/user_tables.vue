@@ -58,8 +58,11 @@
             </Select>
         </FormItem>
         <FormItem label="权限角色" prop="role" >
-            <Select v-model="formItem.role" placeholder="用户初始权限角色，非特殊情况勿选择学生，一般选择教师角色">
-                <Option v-for="item in roleList" :value="item.role_id" :key="item.role_id">{{ item.role_name }}</Option>
+            <Select v-model="formItem.role" placeholder="用户初始权限角色，一般选择教师角色">
+              <template v-for="item in roleList" >
+                <option v-if ="item.role_name=='学生'" disabled :value="item.role_id" :key="item.role_id">{{ item.role_name }}</Option>
+                <Option v-else :value="item.role_id" :key="item.role_id">{{ item.role_name }}</Option>
+              </template>
             </Select>
         </FormItem>
         <FormItem label="隶属学院" prop="academy_id" >
