@@ -8,9 +8,9 @@
         </infor-card>
       </i-col>
     </Row> -->
-    <div class="logo">
-
-    </div>
+    <Row >
+      <img src="../../../assets/images/tt1.jpg" style="width:100%">
+    </Row>
     <Carousel v-model="value1" loop :autoplay='true' :autoplay-speed='5000'>
         <CarouselItem>
             <div class="demo-carousel"><img src='../../../assets/images/carousel1.jpg'></div>
@@ -25,7 +25,7 @@
             <div class="demo-carousel"><img src='../../../assets/images/carousel4.jpg'></div>
         </CarouselItem>
     </Carousel>
-    <Row :gutter="20" style="margin-top: 10px;">
+    <!-- <Row :gutter="20" style="margin-top: 10px;">
       <i-col :md="24" :lg="8" style="margin-bottom: 20px;">
         <Card shadow>
           <chart-pie style="height: 300px;" :value="pieData" text="用户访问来源"></chart-pie>
@@ -36,12 +36,12 @@
           <chart-bar style="height: 300px;" :value="barData" text="每周用户活跃量"/>
         </Card>
       </i-col>
-    </Row>
-    <Row>
+    </Row> -->
+    <!-- <Row>
       <Card shadow>
         <example style="height: 310px;"/>
       </Card>
-    </Row>
+    </Row> -->
   </div>
 </template>
 
@@ -94,17 +94,6 @@ export default {
 }
 </script>
 
-<style lang="less">
-.count-style{
-  font-size: 50px;
-  .logo{
-    background-color: #A32B34;
-    background-image: url(../../../assets/images/tt1.jpg);
-    background-repeat: no-repeat;
-    background-position: 200px;
-    height: 136px;
-    position: relative;
-    z-index: 99;
-}
-}
+<style scoped>
+
 </style>
