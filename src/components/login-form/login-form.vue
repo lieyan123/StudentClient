@@ -50,7 +50,7 @@ export default {
         userName: 'super_admin',
         password: ''
       },
-      status:'学生'
+      status: '学生'
     }
   },
   computed: {
@@ -68,7 +68,7 @@ export default {
           this.$emit('on-success-valid', {
             userName: this.form.userName,
             password: this.form.password,
-            status:this.status
+            status: this.status
           })
         }
       })
