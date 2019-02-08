@@ -68,7 +68,7 @@
     </i-col>
   </Row>
     </Card>
-    <Drawer v-model="scoredrawer" width="300px">
+    <Drawer v-model="scoredrawer" width="500px">
       <h1>{{name}}</h1>
       <Divider />
       <tables
@@ -416,6 +416,11 @@ export default {
         email: ''
       },
       scoredrawer: false,
+      scorecolumns: [
+        { title: '课程名', key: 'lesson_name', width: 150, sortable: true },
+        { title: '课程学分', key: 'credit', width: 150, sortable: true },
+        { title: '成绩', key: 'score', width: 150, sortable: true }
+      ],
       scoretableData: [],
       point: [],
       name: '',
@@ -424,7 +429,7 @@ export default {
   },
   methods: {
     showScoreDrawer (row) {
-      getStudentScore(row.student_id).then(res => {
+      getStudentScore(row.student_num).then(res => {
         this.scoretableData = res.data.tableData
         this.point = res.data.point
         this.name = row.student_name
