@@ -1,7 +1,8 @@
 <template>
   <div>
     <Card>
-      <h1>{{tableData[0].class_name}}</h1>
+      <h1 v-if="tableData.length==0">暂无学生信息</h1>
+      <h1 v-else>{{tableData[0].class_name}}</h1>
       <tables
         ref="tables"
         border
